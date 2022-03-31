@@ -1,15 +1,18 @@
 const express = require("express");
-const port  = process.env.PORT || 3000;
+require("dotenv").config();
+const port  =  3000;
 const app = express();
 const models = require('./models/Association');
 const cors = require('cors')
+
 const bodyParser = require('body-parser');
 //const {getUserId} = require('./controller/getUserId');
+const fileUpload = require('express-fileupload');
 app.use(express.static(__dirname + '/public'));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(fileUpload());
 
 const createTable = ()=>{
     let files = [ 'Category','Product','User', 'Cart_Item', 'Order', 'Order_Detail','Order_History']
@@ -36,7 +39,11 @@ app.post('/register/newUser', Controller('User').storeUser);
 
 app.post('/login', Controller('User').Login);
 
+app.put('/product/edit/:id', Controller('Product').editProduct);
+app.delete('/product/delete/:id',Controller('Product').deleteProduct);
+app.post('/product/add',Controller('Product').addProduct);
 app.get('/product/:id', Controller('Product').getProductById);
+
 app.get('/products', Controller('getAllProducts'));
 
  app.get('/cart/add', Controller('Cart').addCart);
@@ -54,4 +61,3 @@ app.use('/login', (req, res) => {
         token: 'test123'
     });
 });
-

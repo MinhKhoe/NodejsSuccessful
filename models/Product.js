@@ -32,15 +32,21 @@ const Product = sequelize.define('Product',{
         description: {
             type: DataTypes.STRING,
             allowNull: false,
+            defaultValue: ""
         },
 
         price: {
-            type: DataTypes.DECIMAL(6,2),
+            type: DataTypes.DECIMAL(10,2),
         },
 
         available_quantity: {
             type: DataTypes.INTEGER.UNSIGNED,
             defaultValue: 0,
+        },
+        image:{
+            type:DataTypes.STRING,
+            defaultValue:"",
+            allowNull: true,
         }
     },{
         timestamps: false,
